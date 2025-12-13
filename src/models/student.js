@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import bcrypt from "bcryptjs";
 const studentSchema = new mongoose.Schema({
     name : { type: String, required: true },
     email : {
@@ -17,12 +17,16 @@ const studentSchema = new mongoose.Schema({
     classId : { type: mongoose.Schema.Types.ObjectId, ref: "Class", required: true  }, 
     password : {
         type: String,
+        trim : true,
         required : [true, "Password is required"],
         min : [6, "Password must be at least 6 characters long"],
-        max : [15, "Password must be at most 15 characters long"]
+        max : [15, "Password must be at most 15 characters long"],
+        set : (v)=>{
+            return bcrypt.hashSync(v, bcrypt.genSaltSync(10)); 
+        }
     },
     image : {type : String, default : ""},
-    ban : { type: Boolean, default: false  },
+    isBanned : { type: Boolean, default: false  },
     admin : { type: Boolean, default: false  },
     address : { type: String, default : "" },
     phone : {
