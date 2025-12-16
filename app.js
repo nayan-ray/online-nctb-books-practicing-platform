@@ -8,6 +8,10 @@ import { fileURLToPath } from "url";
 import { errorResponse } from './src/helper/response.js';
 import studentRouter from './src/routes/studentRoute.js';
 import studentAuthRouter from './src/routes/authRoute.js';
+import classRouter from './src/routes/classRoute.js';
+import subjectRouter from './src/routes/subjRoute.js';
+import unitRouter from './src/routes/unitRoute.js';
+import noteRouter from './src/routes/noteRoute.js';
 
 const app = express();
 
@@ -29,6 +33,10 @@ app.use('/uploads', express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/v1/student", studentRouter);
 app.use("/api/v1/auth", studentAuthRouter);
+app.use("/api/v1/class", classRouter);
+app.use("/api/v1/subject", subjectRouter);
+app.use("/api/v1/unit", unitRouter);
+app.use("/api/v1/note", noteRouter);
  
 //client error handling
 app.use((req,res,next)=>{
