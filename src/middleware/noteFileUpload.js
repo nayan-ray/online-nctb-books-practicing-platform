@@ -30,6 +30,6 @@ const ALLOWED_FILE_TYPES = ['png', 'jpg', 'jpeg'];
   }
 
 
-const moteImgUpload = multer({ storage: storage, fileFilter: fileFilter, limits : { fileSize :  2 * 1024 * 1024 } }); //2MB
+const Upload = multer({ storage: storage, fileFilter: fileFilter, limits : { fileSize :  2 * 1024 * 1024 } }); //2MB
 
-export default moteImgUpload;
+export default Upload;

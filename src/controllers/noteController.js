@@ -14,9 +14,7 @@ const createNote = async (req, res, next) => {
        const noteTitleImgFile = req.files?.noteTitleImg?.[0];
        const noteExplanationImgFile = req.files?.noteExplanationImg?.[0];
 
-       console.log("noteTitleImgFile:", noteTitleImgFile);
-       console.log("noteExplanationImgFile:", noteExplanationImgFile);
-
+  
        const noteTitleImg = `${req.protocol}://${req.get("host")}/uploads/note/${noteTitleImgFile.filename}`;
        const noteExplanationImg = `${req.protocol}://${req.get("host")}/uploads/note/${noteExplanationImgFile.filename}`;
 
@@ -39,11 +37,7 @@ const createNote = async (req, res, next) => {
         });
 
     } catch (error) {
-         
-         if (error.code === "LIMIT_FILE_SIZE") {
-            next(createError(400, 'File size is too large. Maximum limit is 2MB'));
-         };
-
+        
          next(error);
    }
     

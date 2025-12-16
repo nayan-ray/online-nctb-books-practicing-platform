@@ -12,6 +12,8 @@ import classRouter from './src/routes/classRoute.js';
 import subjectRouter from './src/routes/subjRoute.js';
 import unitRouter from './src/routes/unitRoute.js';
 import noteRouter from './src/routes/noteRoute.js';
+import quesRouter from './src/routes/modelQuesRoute.js';
+
 
 const app = express();
 
@@ -37,6 +39,7 @@ app.use("/api/v1/class", classRouter);
 app.use("/api/v1/subject", subjectRouter);
 app.use("/api/v1/unit", unitRouter);
 app.use("/api/v1/note", noteRouter);
+app.use("/api/v1/model-ques", quesRouter);
  
 //client error handling
 app.use((req,res,next)=>{
@@ -47,6 +50,10 @@ app.use((req,res,next)=>{
 
 //server error handling
 app.use((error,req,res,next)=>{
+    if(error.code == "LIMIT_FILE_SIZE"){
+        error = createError(400,'File size is too large. Maximum limit is 2MB')
+    }
+    console.log(error);
     
     return errorResponse(res,{
         statusCode :error.status,
