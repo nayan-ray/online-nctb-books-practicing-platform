@@ -15,8 +15,8 @@ const createNote = async (req, res, next) => {
        const noteExplanationImgFile = req.files?.noteExplanationImg?.[0];
 
   
-       const noteTitleImg = `${req.protocol}://${req.get("host")}/uploads/note/${noteTitleImgFile.filename}`;
-       const noteExplanationImg = `${req.protocol}://${req.get("host")}/uploads/note/${noteExplanationImgFile.filename}`;
+       const noteTitleImg = `${req.protocol}://${req.get("host")}/uploads/${noteTitleImgFile.filename}`;
+       const noteExplanationImg = `${req.protocol}://${req.get("host")}/uploads/${noteExplanationImgFile.filename}`;
 
 
         const noteObj = {

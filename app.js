@@ -15,6 +15,7 @@ import noteRouter from './src/routes/noteRoute.js';
 import quesRouter from './src/routes/modelQuesRoute.js';
 import quizRouter from './src/routes/quizRoute.js';
 import examQuizRouter from './src/routes/examQuizRoute.js';
+import getImageRouter from './src/routes/imageShow.js';
 
 
 const app = express();
@@ -44,6 +45,7 @@ app.use("/api/v1/note", noteRouter);
 app.use("/api/v1/model-ques", quesRouter);
 app.use("/api/v1/quiz", quizRouter);
 app.use("/api/v1/exam-quiz", examQuizRouter);
+app.use("/uploads", getImageRouter)
  
 //client error handling
 app.use((req,res,next)=>{
@@ -56,6 +58,9 @@ app.use((req,res,next)=>{
 app.use((error,req,res,next)=>{
     if(error.code == "LIMIT_FILE_SIZE"){
         error = createError(400,'File size is too large. Maximum limit is 2MB')
+    }
+    if(error.code == "ENOENT" ){
+        error = createError(404,'File not found')
     }
     console.log(error);
     

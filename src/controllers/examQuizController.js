@@ -32,19 +32,19 @@ const createExamQuiz = async (req, res, next) => {
         }
 
        if(quizTitleImgFile?.filename){
-        quizObj.quizTitleImg = `${req.protocol}://${req.get("host")}/uploads/quiz/${quizTitleImgFile?.filename}`;
+        quizObj.quizTitleImg = `${req.protocol}://${req.get("host")}/uploads/${quizTitleImgFile?.filename}`;
        }
        if(quizOptionAImgFile?.filename){
-        quizObj.quizOptionAImg = `${req.protocol}://${req.get("host")}/uploads/quiz/${quizOptionAImgFile?.filename}`;
+        quizObj.quizOptionAImg = `${req.protocol}://${req.get("host")}/uploads/${quizOptionAImgFile?.filename}`;
        }
        if(quizOptionBImgFile?.filename){
-        quizObj.quizOptionBImg = `${req.protocol}://${req.get("host")}/uploads/quiz/${quizOptionBImgFile?.filename}`;
+        quizObj.quizOptionBImg = `${req.protocol}://${req.get("host")}/uploads/${quizOptionBImgFile?.filename}`;
        }
        if(quizOptionCImgFile?.filename){
-        quizObj.quizOptionCImg = `${req.protocol}://${req.get("host")}/uploads/quiz/${quizOptionCImgFile?.filename}`;
+        quizObj.quizOptionCImg = `${req.protocol}://${req.get("host")}/uploads/${quizOptionCImgFile?.filename}`;
        }
        if(quizOptionDImgFile?.filename){
-        quizObj.quizOptionDImg = `${req.protocol}://${req.get("host")}/uploads/quiz/${quizOptionDImgFile?.filename}`;
+        quizObj.quizOptionDImg = `${req.protocol}://${req.get("host")}/uploads/${quizOptionDImgFile?.filename}`;
        }
        
 

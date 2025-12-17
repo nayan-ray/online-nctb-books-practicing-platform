@@ -29,16 +29,16 @@ const createModelQues = async (req, res, next) => {
         }
        
        if(quesTitleImgFile?.filename){
-        modelQuesObj.quesTitleImg = `${req.protocol}://${req.get("host")}/uploads/modelQues/${quesTitleImgFile?.filename}`;
+        modelQuesObj.quesTitleImg = `${req.protocol}://${req.get("host")}/uploads/${quesTitleImgFile?.filename}`;
        }
        if(ansAImgFile?.filename){
-        modelQuesObj.ansAImg = `${req.protocol}://${req.get("host")}/uploads/modelQues/${ansAImgFile?.filename}`;
+        modelQuesObj.ansAImg = `${req.protocol}://${req.get("host")}/uploads/${ansAImgFile?.filename}`;
        }
        if(ansBImgFile?.filename){
-        modelQuesObj.ansBImg = `${req.protocol}://${req.get("host")}/uploads/modelQues/${ansBImgFile?.filename}`;
+        modelQuesObj.ansBImg = `${req.protocol}://${req.get("host")}/uploads/${ansBImgFile?.filename}`;
        }
        if(ansCImgFile?.filename){
-        modelQuesObj.ansCImg = `${req.protocol}://${req.get("host")}/uploads/modelQues/${ansCImgFile?.filename}`;
+        modelQuesObj.ansCImg = `${req.protocol}://${req.get("host")}/uploads/${ansCImgFile?.filename}`;
        }
 
         const newModelQues = await ModelQues.create(modelQuesObj);
