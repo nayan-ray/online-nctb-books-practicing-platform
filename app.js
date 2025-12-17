@@ -13,6 +13,8 @@ import subjectRouter from './src/routes/subjRoute.js';
 import unitRouter from './src/routes/unitRoute.js';
 import noteRouter from './src/routes/noteRoute.js';
 import quesRouter from './src/routes/modelQuesRoute.js';
+import quizRouter from './src/routes/quizRoute.js';
+import examQuizRouter from './src/routes/examQuizRoute.js';
 
 
 const app = express();
@@ -40,6 +42,8 @@ app.use("/api/v1/subject", subjectRouter);
 app.use("/api/v1/unit", unitRouter);
 app.use("/api/v1/note", noteRouter);
 app.use("/api/v1/model-ques", quesRouter);
+app.use("/api/v1/quiz", quizRouter);
+app.use("/api/v1/exam-quiz", examQuizRouter);
  
 //client error handling
 app.use((req,res,next)=>{
