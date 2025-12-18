@@ -261,11 +261,10 @@ const updateUser = async(req, res,next) => {
         }
 
         const image  = req.file;
-        console.log(image);
-       
+     
        if(image){
          
-          updateObject.image = image.filename;
+          updateObject.image = `${req.protocol}://${req.get("host")}/uploads/${image?.filename}`;
         //   user.image && deleteImageByPath(user.image);
         }
       
@@ -295,7 +294,7 @@ const updateUser = async(req, res,next) => {
             statusCode  : 200,
             message  : 'user retrieved successfully',
             payload : {
-                url : `${req.protocol}://${req.get("host")}/uploads/studentImages/${userUpdated.image}`
+                url : `${req.protocol}://${req.get("host")}/uploads/${userUpdated.image}`
             }
         })
 
