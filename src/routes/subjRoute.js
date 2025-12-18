@@ -1,5 +1,5 @@
 import express from "express";
-import { createSubject } from "../controllers/subjectController.js";
+import { createSubject, deleteSubject, updateSubject } from "../controllers/subjectController.js";
 
 
 
@@ -7,7 +7,8 @@ const router = express.Router();
 
 
 router.post("/add-subject", createSubject);
-
+router.put("/update-subject/:id", updateSubject);
+router.delete("/delete-subject/:id", deleteSubject);
 
 
 export default router;
