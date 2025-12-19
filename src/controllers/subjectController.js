@@ -1,6 +1,8 @@
 import { successResponse } from "../helper/response.js";
+import createHttpError from "http-errors";
 import Subject from "../models/subject.js";
 import {findUserById} from "../helper/commonService.js"
+import mongoose from "mongoose";
 
 
 
@@ -59,4 +61,26 @@ const deleteSubject = async (req, res, next) => {
     }
 }
 
-export { createSubject, updateSubject, deleteSubject };
+const getAllSubjectsByClassId = async (req, res, next) => {
+    const classId = req.params.id;
+    try {
+        
+        const classIdObj = new mongoose.Types.ObjectId(classId);
+        const subjects =await Subject.aggregate([
+            { $match: { classId: classIdObj } },
+            { $project: { classId: 0, createdAt: 0, updatedAt: 0, __v: 0 } }
+        ]);
+        if(!subjects){
+           throw createHttpError(404, 'No subjects found for the given class ID');
+        }
+        return successResponse(res, {
+            statusCode: 200,
+            message: 'Subjects retrieved successfully',
+            payload: subjects
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { createSubject, updateSubject, deleteSubject, getAllSubjectsByClassId };

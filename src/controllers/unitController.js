@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { findUserById } from "../helper/commonService.js";
 import { successResponse } from "../helper/response.js";
 import Unit from "../models/unit.js";
@@ -64,4 +65,85 @@ const deleteUnit = async (req, res, next) => {
     }
 }
 
-export { createUnit, updateUnit, deleteUnit };
+const getAllUnitsBySubjectId = async (req, res, next) => {
+    const id = req.params.id;
+    const subjId = new mongoose.Types.ObjectId(id);
+    try {
+        const units = await Unit.aggregate([
+            { $match: { subjId: subjId } },
+            { $project: {
+               subjId: 0, createdAt: 0, updatedAt: 0, __v: 0, classId: 0
+               
+            }}
+        ]);
+        return successResponse(res, {
+            statusCode: 200,
+            message: 'Units fetched successfully',
+            payload: units
+        });
+        
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getUnitDetails = async (req, res, next) => {
+    const id = req.params.id;
+    const unitID = new mongoose.Types.ObjectId(id);
+    try {
+        const details = await Unit.aggregate([
+            { $match: { _id: unitID } },
+            {$facet : {
+                notes :[
+                    { $lookup : {
+                        from : "notes",
+                        pipeline: [
+                            { $match: { unitId: unitID } },
+                            { $project: {subjId : 0, classId: 0, createdAt: 0, updatedAt: 0, __v: 0 } }
+                        ],
+                        as : "notes"
+                    }},
+                      { $unwind: "$notes" },
+                      { $replaceRoot: { newRoot: "$notes" } },
+                        {$count : "totalNotes" }
+                ],
+                questions : [
+                    { $lookup : {
+                        from : "modelques",
+                        pipeline: [
+                            { $match: { unitId: unitID } },
+                            { $project: {subjId : 0, classId: 0, createdAt: 0, updatedAt: 0, __v: 0 } }
+                        ],
+                        as : "questions"
+                    }},
+                      { $unwind: "$questions" },
+                      { $replaceRoot: { newRoot: "$questions" } },
+                      {$count : "totalQuestions" }
+                ],
+
+                quizzes : [
+                    { $lookup : {
+                        from : "quizzes",
+                        pipeline: [
+                            { $match: { unitId: unitID } },
+                            { $project: {subjId : 0, classId: 0, createdAt: 0, updatedAt: 0, __v: 0 } }
+                        ],
+                        as : "quizzes"
+                    }},
+                      { $unwind: "$quizzes" },
+                      { $replaceRoot: { newRoot: "$quizzes" } },
+                      {$count : "totalQuizzes" }
+                ]
+            }}
+        ])
+        return successResponse(res, {
+            statusCode: 200,
+            message: 'Unit details fetched successfully',
+            payload: details
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { createUnit, updateUnit, deleteUnit, getAllUnitsBySubjectId, getUnitDetails };
