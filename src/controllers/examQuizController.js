@@ -296,7 +296,9 @@ const submitQuizByUnit = async (req, res, next)=>{
 
 const getResultByUnitAndUser = async (req, res, next)=>{
     const unitId = req.params.id;
+  
     const studentId = req.student.id;
+   
     try {
         const result = await Result.findOne({unitId, studentId}, {correct : 1, total : 1});
          return successResponse(res,{
@@ -308,4 +310,26 @@ const getResultByUnitAndUser = async (req, res, next)=>{
         next(error)
     }
 }
-export { createExamQuiz, deleteExamQuiz, updateExamQuiz , getQuizByUnitId, submitQuizByUnit};
+
+const resultBySubj = async (req, res, next)=>{
+    try {
+        const result = await Result.aggregate([
+            {$group :{
+                _id : {subjName : "$subjName", studentId : "$studentId"},
+                totalCorrect : {$sum : "$correct"},
+                totalNumber : {$sum : "$total"}
+            }}
+        ])
+
+         return successResponse(res,{
+            statusCode  : 200,
+            message  : 'result submit successfully',
+            payload : result
+        })
+        
+    } catch (error) {
+        next(error)
+    }
+
+}
+export { createExamQuiz, deleteExamQuiz, updateExamQuiz , getQuizByUnitId, submitQuizByUnit, getResultByUnitAndUser, resultBySubj};
